@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'Auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -10,6 +12,39 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   bool show = true ;
+  bool hasAccount  = true ;
+  final TextEditingController _controllerEmail = TextEditingController() ;
+  final TextEditingController _controllerPassWord = TextEditingController() ;
+  String errorMessage = '' ;
+
+  Future<void> signInUserWithEmailPassword() async{
+
+    try{
+      await Auth().signInUserWithEmailAndPassword(
+          email : _controllerEmail.text ,
+          password : _controllerPassWord.text
+      );
+    } on FirebaseAuthException catch (e){
+      setState(() {
+        errorMessage = e.message!;
+      });
+    }
+  }
+  Future<void> createUserWithEmailPassword() async{
+
+    try{
+      await Auth().createUserWithEmailAndPassword(
+        email : _controllerEmail.text ,
+        password : _controllerPassWord.text,
+
+        //photo: _controllerPhoto.text
+      );
+    } on FirebaseAuthException catch (e){
+      setState(() {
+        errorMessage = e.message!;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -20,8 +55,9 @@ class _SignUpState extends State<SignUp> {
             children: [
               Image.asset("assets/images/7.png", height: 350,),
               Container(
-                margin:EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
+                margin:const EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
                 child: TextField(
+                  controller: _controllerEmail,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
                     fillColor: Colors.white,
@@ -34,15 +70,16 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Container(
-                margin:EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
+                margin:const EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
                 child: TextField(
+                  controller: _controllerPassWord,
                   obscureText: show,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
                    fillColor: Colors.white,
-                    hintStyle:TextStyle(color: Colors.grey) ,
+                    hintStyle:const TextStyle(color: Colors.grey) ,
                     prefixIcon: IconButton(
-                        icon: show== true  ? Icon( Icons.vpn_key_outlined , color: Colors.grey,) :Icon( Icons.vpn_key_off_outlined , color: Colors.grey,) ,
+                        icon: show== true  ? const Icon( Icons.vpn_key_outlined , color: Colors.grey,) : const Icon( Icons.vpn_key_off_outlined , color: Colors.grey,) ,
                       onPressed: (){
                           setState(() {
                             show = !show ;
@@ -57,13 +94,16 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Container(
-                margin:EdgeInsets.symmetric(vertical:0  , horizontal:20 ) ,
+                margin:const EdgeInsets.symmetric(vertical:0  , horizontal:20 ) ,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("D'ont have an account ?" , style: TextStyle(color: Colors.grey.shade700),) ,
-                    TextButton(onPressed: (){}, child: Text("Sign Up" , style: TextStyle(fontSize: 16 , fontWeight:FontWeight.bold),))
+
+                    Text( hasAccount ? " Don't have an account ?" : "have an account already ?" , style: TextStyle(color: Colors.grey.shade700),) ,
+                    TextButton(onPressed: (){ setState(() {
+                      hasAccount = !hasAccount ;
+                    });}, child: Text( hasAccount ? "SignUp" : "SignIn" , style: const TextStyle(fontSize: 16 , fontWeight:FontWeight.bold),))
                   ],
                 ),
 
@@ -71,19 +111,23 @@ class _SignUpState extends State<SignUp> {
               Container(
                 width: double.infinity,
                 height: 55,
-                margin:EdgeInsets.symmetric(vertical:0  , horizontal:20 ) ,
+                margin:const EdgeInsets.symmetric(vertical:0  , horizontal:20 ) ,
                 child: ElevatedButton(
                   style: ButtonStyle(
                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(20)),
                   ),
 
-                    backgroundColor: MaterialStateProperty.all(Color(0xff18DAA3))
+                    backgroundColor: MaterialStateProperty.all(const Color(0xff18DAA3))
                   ),
                   onPressed: (){
-
+                    if (hasAccount) {
+                      signInUserWithEmailPassword() ;
+                    }else {
+                      createUserWithEmailPassword();
+                    }
                   },
-                  child: Text("Login" , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 22),),
+                  child: Text(hasAccount ? "Login" : "Sign Up" , style: const TextStyle(fontWeight: FontWeight.bold , fontSize: 22),),
                 ),
               )
 

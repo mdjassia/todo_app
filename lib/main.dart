@@ -1,8 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:todo_app/Home/home.dart';
 import 'Authentification/signUp.dart';
+import 'Authentification/widgetTree.dart';
+import 'package:firebase_core/firebase_core.dart';
 
- main() {
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -22,7 +28,9 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
 
-        '/' :(context) => const SignUp(),
+        '/' :(context) => const Widget_Tree(),
+        'Home' : (context) => const Home() ,
+        'register' : (context) => const SignUp(),
 
 
       },
