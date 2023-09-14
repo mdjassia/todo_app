@@ -4,9 +4,9 @@ class Todo {
   final String subtitle ;
   final  DateTime date ;
   final bool done ;
-  final String image ;
 
-  Todo({ required this.email, required this.title , required this.subtitle , required this.date , required this.done , required this.image});
+
+  Todo({ required this.email, required this.title , required this.subtitle , required this.date , required this.done });
   factory Todo.fromJson(Map<String, dynamic> json) {
    return Todo(
        email: json['email'],
@@ -14,7 +14,7 @@ class Todo {
        subtitle: json['subtitle'],
        date: json['date'].toDate(),
        done: json['done'],
-       image: json['image'],
+
        );
 
   }
@@ -26,7 +26,7 @@ class Todo {
     'subtitle' : subtitle ,
     'date' : date ,
     'done' : done ,
-    'image'  : image  ,
+
    };
   }
 
