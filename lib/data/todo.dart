@@ -3,7 +3,7 @@ class Todo {
  final String email ;
   final String title;
   final String subtitle ;
-  final  DateTime date ;
+  final  String date  ;
   final bool done ;
 
 
@@ -15,7 +15,7 @@ class Todo {
        email: json['email'],
        title: json['title'],
        subtitle: json['subtitle'],
-       date: json['date'].toDate(),
+       date: json['date'],
        done: json['done'],
 
 

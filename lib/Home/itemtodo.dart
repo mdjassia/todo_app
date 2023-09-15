@@ -25,8 +25,8 @@ class _ListItemState extends State<ListItem> {
             (value) => log("updated Successfully!"),
         onError: (e) => log("Error updating : $e"));
   }
-  final String hexColor = "#04a597";
-  final String hexColor2 = "#d84a7c";
+  final String hexColor = "#4f459e";
+  final String hexColor2 = "#399f49";
 
   @override
 
@@ -34,10 +34,9 @@ class _ListItemState extends State<ListItem> {
     final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
     final Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
 
-    String id = widget.todo.id;
+    String id = widget.todo.id ;
     bool _isdone =  widget.todo.done;
-    String    date =               widget.todo.date.day.toString()+'/'+widget.todo.date.month.toString()+'/'+widget.todo.date.year.toString()+'   '+widget.todo.date.hour.toString()+':'+widget.todo.date.minute.toString() ;
-
+    String    date =               widget.todo.date ;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       child: Container(
@@ -154,6 +153,10 @@ class _ListItemState extends State<ListItem> {
                     Container(
                       height: 40,
                       child: ElevatedButton(onPressed: (){
+                        setState(() {
+                          _isdone = !_isdone ;
+                        });
+                        checkFun( _isdone ,  id);
                       },
                           child: Text('Complete'),
                         style: ButtonStyle(

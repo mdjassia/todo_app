@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_app/data/todo.dart';
-import 'itemtodo.dart';
+
 import 'package:todo_app/Authentification/Auth.dart';
 import 'screenTodo.dart';
+import 'timedate.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,10 +23,9 @@ class _HomeState extends State<Home> {
   Future<void> signOut ()async{
     await Auth().signOut();
   }
-  final String hexColor = "#04a597";
+  final String hexColor = "#4f459e";
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   @override
 
   void _onItemTapped(int index) {
@@ -150,10 +150,7 @@ class _HomeState extends State<Home> {
                   ScreenTodo(list: isnotdone),
                   ScreenTodo(list: isdone),
 
-                  Text(
-                    'Index 2: School',
-                    style: optionStyle,
-                  ),
+                  Timee()
                 ];
 
 
@@ -177,7 +174,7 @@ class _HomeState extends State<Home> {
                    child:  BottomNavigationBar(
                      currentIndex: _selectedIndex,
                      backgroundColor: Colors.white,
-                     selectedItemColor:Color(0xff18DAA3),
+                     selectedItemColor:color,
                      //selectedIconTheme: const IconThemeData(color: Colors.  , ),
                      selectedLabelStyle:TextStyle(fontWeight: FontWeight.w200 , fontSize:  16, height: 1.5) ,
 
