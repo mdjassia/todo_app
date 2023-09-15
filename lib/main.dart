@@ -4,6 +4,7 @@ import 'package:todo_app/Home/home.dart';
 import 'Authentification/signUp.dart';
 import 'Authentification/widgetTree.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Home/addTodo.dart';
 
 
 Future<void> main() async{
@@ -29,8 +30,11 @@ class _MyAppState extends State<MyApp> {
       routes: {
 
         '/' :(context) => const Widget_Tree(),
-        'Home' : (context) => const Home() ,
-        'register' : (context) => const SignUp(),
+        '/Home' : (context) => const Home() ,
+        '/register' : (context) => const SignUp(),
+        '/addTodo' : (context) => const AddTodo(),
+
+
 
 
       },

@@ -14,6 +14,8 @@ class _SignUpState extends State<SignUp> {
   bool show = true ;
   bool hasAccount  = true ;
   final TextEditingController _controllerEmail = TextEditingController() ;
+  final TextEditingController _controllerName = TextEditingController() ;
+
   final TextEditingController _controllerPassWord = TextEditingController() ;
   String errorMessage = '' ;
 
@@ -36,6 +38,7 @@ class _SignUpState extends State<SignUp> {
       await Auth().createUserWithEmailAndPassword(
         email : _controllerEmail.text ,
         password : _controllerPassWord.text,
+        name: _controllerName.text
 
         //photo: _controllerPhoto.text
       );
@@ -54,6 +57,21 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               Image.asset("assets/images/7.png", height: 350,),
+              !hasAccount ? Container(
+                margin:const EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
+                child: TextField(
+                  controller: _controllerName,
+                  decoration: InputDecoration(
+                    filled: true, //<-- SEE HERE
+                    fillColor: Colors.white,
+                    prefixIcon: const Icon( Icons.person_outline , color: Colors.grey,),
+                    hintText: "User Name ",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20) ),
+                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(0xff18DAA3) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
+
+                  ),
+                ),
+              ) : SizedBox(),
               Container(
                 margin:const EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
                 child: TextField(

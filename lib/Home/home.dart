@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_app/data/todo.dart';
 import 'itemtodo.dart';
+import 'package:todo_app/Authentification/Auth.dart';
+import 'screenTodo.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,13 +19,91 @@ class _HomeState extends State<Home> {
   final _firebaseAuth = FirebaseAuth.instance ;
   User? get currentUser => _firebaseAuth.currentUser;
 
-
+  Future<void> signOut ()async{
+    await Auth().signOut();
+  }
+  final String hexColor = "#04a597";
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   @override
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+
+
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade300,
-       
+    final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
+
+    return
+       Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          elevation: 0.1,
+          shadowColor: Colors.grey.shade100,
+          backgroundColor:color,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(55.0),
+            child: Container(
+              margin: EdgeInsets.only(  bottom:10 , right: 20 ,left:20 ),
+
+              width: double.infinity,
+              height:55,
+
+              color: color,
+
+                  child: TextField(
+
+                    style: TextStyle(color: Colors.white),
+
+                    decoration: InputDecoration(
+
+
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.white54 ,),
+                      focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Colors.white , width:1 ),borderRadius: BorderRadius.circular(30)  ),
+                      hintText: 'Search task',
+                        prefixIcon: const Icon(Icons.search , color: Colors.white, size: 30,),
+                      border: OutlineInputBorder(
+                          borderSide: const  BorderSide(
+                            color: Colors.white , style: BorderStyle.solid , width: 1
+                          ) , borderRadius: BorderRadius.circular(30)
+                      ),
+                      //alignLabelWithHint:true ,
+
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const  BorderSide(
+                              color: Colors.white , style: BorderStyle.solid , width: 1
+                          ) , borderRadius: BorderRadius.circular(30)
+                      ),
+                      isDense: true
+                    ),
+
+                ),
+              ),
+
+          ),
+
+
+          automaticallyImplyLeading: false,
+
+          title: Text("Welcome ${currentUser?.displayName} " , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w300 ,fontSize:22 ),),
+          centerTitle: true,
+          actions: [
+            IconButton(onPressed: (){
+
+            },
+                icon: Icon(Icons.notifications , color: Colors.white,)),
+           /* IconButton(onPressed: (){
+              signOut();
+            },
+                icon: Icon(Icons.logout , color: Colors.red.shade300,)),*/
+          ],
+        ),
         body: Container(
           margin: EdgeInsets.symmetric(vertical:10 , horizontal:20 ),
           child: StreamBuilder(
@@ -49,8 +129,9 @@ class _HomeState extends State<Home> {
 
               if (snapshot.hasData) {
                 List<Todo> appts = [];
-                List<Todo> isdone = [] ;
-                List<Todo> isnotdone  = [];
+                List<Todo> isdone = [];
+                List<Todo> isnotdone = [];
+
 //_AnimatedMovies = AllMovies.where((i) => i.isAnimated).toList();
 
                 for (var doc in snapshot.data!.docs) {
@@ -58,59 +139,85 @@ class _HomeState extends State<Home> {
                   Todo.fromJson(doc.data() as Map<String, dynamic>);
 
                   appts.add(appt);
-                  if (appt.done == true ){
+                  if (appt.done == true) {
                     isdone.add(appt);
                   }
-                  else{
+                  else {
                     isnotdone.add(appt);
                   }
-
                 }
+                final List<Widget> _widgetOptions = <Widget>[
+                  ScreenTodo(list: isnotdone),
+                  ScreenTodo(list: isdone),
 
-                //isdone = appts.where((i) => i.done ==true  ).toList();
-               // isnotdone = appts.where((i) => i.done ==false  ).toList() ;
-
-                return
-
-                    Column(
-                      children: [
-                        Text('Todo'),
-                        isnotdone.isNotEmpty  ?
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: isnotdone.length,
-                            itemBuilder: (context, index) {
-                               return ListItem(todo: isnotdone[index]) ;
-                            },
-                          ),
-
-                        ): SizedBox(height: 50) ,
-              Text('Done'),
-              Expanded(
-              child: ListView.builder(
-              itemCount: isdone.length,
-              itemBuilder: (context, index) {
-              return ListItem(todo: isdone[index]) ;
-              },
-              ),)
-                      ],
-                    );
+                  Text(
+                    'Index 2: School',
+                    style: optionStyle,
+                  ),
+                ];
 
 
-
+                return _widgetOptions.elementAt(_selectedIndex);
               }
               return  const SizedBox();
             }
           )
-
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xff18DAA3),
-          onPressed: () {  },
+           bottomNavigationBar: Container(
+               height: 70,
+               decoration:  const BoxDecoration(
+
+                 boxShadow: [
+                   BoxShadow(color: Colors.black12 , spreadRadius: 0, blurRadius: 2, blurStyle : BlurStyle.outer),
+                 ],
+               ),
+               child:ClipRRect(
+
+
+                   child:  BottomNavigationBar(
+                     currentIndex: _selectedIndex,
+                     backgroundColor: Colors.white,
+                     selectedItemColor:Color(0xff18DAA3),
+                     //selectedIconTheme: const IconThemeData(color: Colors.  , ),
+                     selectedLabelStyle:TextStyle(fontWeight: FontWeight.w200 , fontSize:  16, height: 1.5) ,
+
+
+                     onTap: _onItemTapped,
+                     type: BottomNavigationBarType.fixed,
+
+
+                     items:   <BottomNavigationBarItem>[
+                       BottomNavigationBarItem(
+                         label: 'Task',
+                         icon: Icon(Icons.paste , color: Colors.grey,),
+                         activeIcon: Icon(Icons.paste , color: color,),
+                       ),
+                       BottomNavigationBarItem(
+                           label: 'Completed Task',
+                           icon: Icon(Icons.inventory_outlined),
+                         activeIcon: Icon(Icons.inventory_outlined , color: color,),
+                       ),
+                       BottomNavigationBarItem(
+                           label: 'Setting',
+                           icon: Icon(Icons.settings),
+                           activeIcon : Icon(Icons.settings , color: color,),
+                       ),
+
+
+
+                     ],
+
+                   )
+               )) ,
+           floatingActionButton: FloatingActionButton(
+          backgroundColor: color ,
+          onPressed: () {
+            Navigator.pushNamed(context, '/addTodo');
+          },
           child:const  Icon(Icons.add),
 
         ),
-      ),
+
     );
   }
 }
