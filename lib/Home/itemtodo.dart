@@ -27,6 +27,12 @@ class _ListItemState extends State<ListItem> {
   }
   final String hexColor = "#4f459e";
   final String hexColor2 = "#399f49";
+  void deleteAppointment(todo) {
+    //Delete selected appointment
+    db.collection('Todo').doc(todo).delete().then(
+            (value) => log("Appointment deleted successfully!"),
+        onError: (e) => "Error deleting appointment: $e");
+  }
 
   @override
 
@@ -122,7 +128,9 @@ class _ListItemState extends State<ListItem> {
                           ),
                           child: IconButton(
                            padding: EdgeInsets.all(0),
-                            onPressed : (){} ,
+                            onPressed : (){
+                              deleteAppointment(id);
+                            } ,
                               icon: Icon(Icons.delete , color: Colors.white, size: 20,) ,
 
 

@@ -5,7 +5,8 @@ import 'package:todo_app/data/todo.dart';
 
 import 'package:todo_app/Authentification/Auth.dart';
 import 'screenTodo.dart';
-import 'timedate.dart';
+import 'settings.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,6 +20,7 @@ class _HomeState extends State<Home> {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance ;
   final _firebaseAuth = FirebaseAuth.instance ;
   User? get currentUser => _firebaseAuth.currentUser;
+  bool _isSet = false ;
 
   Future<void> signOut ()async{
     await Auth().signOut();
@@ -149,8 +151,8 @@ class _HomeState extends State<Home> {
                 final List<Widget> _widgetOptions = <Widget>[
                   ScreenTodo(list: isnotdone),
                   ScreenTodo(list: isdone),
+                  SettingsPage()
 
-                  Timee()
                 ];
 
 

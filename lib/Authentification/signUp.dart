@@ -67,7 +67,8 @@ class _SignUpState extends State<SignUp> {
                     prefixIcon: const Icon( Icons.person_outline , color: Colors.grey,),
                     hintText: "User Name ",
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(20) ),
-                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(0xff18DAA3) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
+                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(
+                        0xff5e52b0) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
 
                   ),
                 ),
@@ -82,7 +83,8 @@ class _SignUpState extends State<SignUp> {
                     prefixIcon: const Icon( Icons.email_outlined , color: Colors.grey,),
                     hintText: "Email ",
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(20) ),
-                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(0xff18DAA3) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
+                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(
+                        0xff5c52ab) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
 
                   ),
                 ),
@@ -106,7 +108,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     hintText: "Password Confirm ",
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(20) ),
-                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(0xff18DAA3) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
+                    focusedBorder: OutlineInputBorder(borderSide:const BorderSide(color : Color(
+                        0xff564ca4) , width:2 ),borderRadius: BorderRadius.circular(20)  ),
 
                   ),
                 ),
@@ -136,7 +139,8 @@ class _SignUpState extends State<SignUp> {
                        borderRadius: BorderRadius.circular(20)),
                   ),
 
-                    backgroundColor: MaterialStateProperty.all(const Color(0xff18DAA3))
+                    backgroundColor: MaterialStateProperty.all(const Color(
+                        0xff5b4ead))
                   ),
                   onPressed: (){
                     if (hasAccount) {
