@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:todo_app/Authentification/editUser.dart';
 import 'package:todo_app/Home/home.dart';
 import 'package:todo_app/Home/updateTodo.dart';
 import 'Authentification/signUp.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         '/Home' : (context) => const Home() ,
         '/register' : (context) => const SignUp(),
         '/addTodo' : (context) => const AddTodo(),
-
+        '/editUser' : (context) => const EditUser(),
 
 
 

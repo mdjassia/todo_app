@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
 
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance ;
   final _firebaseAuth = FirebaseAuth.instance ;
-  User? get currentUser => _firebaseAuth.currentUser;
+
   bool _isSet = false ;
 
   Future<void> signOut ()async{
@@ -45,7 +45,15 @@ class _HomeState extends State<Home> {
 
 
   }
+  User? get currentUser =>  _firebaseAuth.currentUser;
+  @override
+  void initState() {
 
+    // TODO: implement initState
+
+    super.initState();
+
+  }
 
 
   Widget build(BuildContext context) {
@@ -140,7 +148,7 @@ class _HomeState extends State<Home> {
                               borderRadius: BorderRadius.circular(50)
                             ),
                               child: IconButton(onPressed: (){
-
+                                Navigator.pushNamed(context, '/editUser');
                               },
                                   highlightColor: Colors.transparent,
                                   icon: Icon(Icons.edit , color: Colors.white,

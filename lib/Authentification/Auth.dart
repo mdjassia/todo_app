@@ -18,6 +18,13 @@ class Auth {
     await FirebaseAuth.instance.currentUser?.reload() ;
 
   }
+  Future<void> updateUserName({
+    required String name ,
+}) async {
+
+    await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+    await FirebaseAuth.instance.currentUser?.reload() ;
+  }
 
   Future<void> signInUserWithEmailAndPassword({
     required String email,
