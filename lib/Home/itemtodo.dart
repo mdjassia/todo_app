@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'updateTodo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +111,13 @@ class _ListItemState extends State<ListItem> {
                           ),
                           child: IconButton(
                            padding: EdgeInsets.all(0),
-                            onPressed : (){} ,
+                            onPressed : (){
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>  UpdateTodo(todo: widget.todo,)),
+                              );
+                            } ,
                               icon: Icon(Icons.edit , color: Colors.white, size: 20,) ,
 
 

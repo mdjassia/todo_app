@@ -44,8 +44,8 @@ class _AddTodoState extends State<AddTodo> {
 
   void initState() {
 
-    timeinput.text = ""; //set the initial value of text field
-    dateinput.text = ""; //set the initial value of text field
+    timeinput.text = "                  "; //set the initial value of text field
+    dateinput.text = "                  "; //set the initial value of text field
     super.initState();
   }
    String couleur = "#4f459e";
@@ -141,12 +141,26 @@ class _AddTodoState extends State<AddTodo> {
                               if(pickedTime != null ){
                                 String selTime =
                                     pickedTime.hour.toString() + ':' + pickedTime.minute.toString() ;
+                                print(pickedTime.format(context).toString());
+                               String kk = pickedTime.format(context);
+
+
+                                DateTime parsedTime = DateFormat.Hm().parse(kk);
+
+                                //converting to DateTime so that we can further format on different pattern.
+
+                                String formattedTime = DateFormat('HH:mm').format(parsedTime) ; //output 14:59:00
+                                //DateFormat() is from intl package, you can format the time on any pattern you need.
+
+
+                                //you can implement different kind of Date Format here according to your requirement
+
 
                                 //output 14:59:00
                                 //DateFormat() is from intl package, you can format the time on any pattern you need.
 
                                 setState(() {
-                                  timeinput.text = selTime; //set the value of text field.
+                                  timeinput.text = formattedTime; //set the value of text field.
                                 });
                               }
                             },
@@ -189,9 +203,9 @@ class _AddTodoState extends State<AddTodo> {
     );
 
     if(pickedDate != null ){
-    print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-    print(formattedDate); //formatted date output using intl package =>  2021-03-16
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+
     //you can implement different kind of Date Format here according to your requirement
 
     setState(() {

@@ -34,6 +34,16 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+    if(index == 2){
+      setState(() {
+        _isSet =true  ;
+      });
+    }
+    else{
+      _isSet = false  ;
+    }
+
+
   }
 
 
@@ -49,16 +59,17 @@ class _HomeState extends State<Home> {
           shadowColor: Colors.grey.shade100,
           backgroundColor:color,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(55.0),
+            preferredSize:  _isSet ? Size.fromHeight(80.0) : const Size.fromHeight(60.0) ,
             child: Container(
               margin: EdgeInsets.only(  bottom:10 , right: 20 ,left:20 ),
 
               width: double.infinity,
-              height:55,
+               height: _isSet ? 80 :55,
 
               color: color,
 
-                  child: TextField(
+                  child: !_isSet ?
+                  TextField(
 
                     style: TextStyle(color: Colors.white),
 
@@ -85,7 +96,59 @@ class _HomeState extends State<Home> {
                       isDense: true
                     ),
 
-                ),
+                ) :
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment:  CrossAxisAlignment.center,
+                        children: [
+                          Row(
+
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                height: 75,
+                                width: 75,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffec356d),
+                                  borderRadius: BorderRadius.circular(100)
+                                ),
+                                margin: EdgeInsets.only(right: 10),
+                                
+                                child: Text("${currentUser?.email?.substring(0 , 1).toUpperCase()}" ,
+                                  style:TextStyle(
+                                    color: Colors.white ,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22
+                                  ) ,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${currentUser?.displayName}" , style: TextStyle(color: Colors.white , fontSize: 22 , fontWeight: FontWeight.w600),),
+                                  Text("${currentUser?.email}" ,style: TextStyle(color: Colors.white , fontSize: 15 , fontWeight: FontWeight.w300),),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          Container(
+
+                            decoration: BoxDecoration(
+                              color: Color(0xf23d376b),
+                              borderRadius: BorderRadius.circular(50)
+                            ),
+                              child: IconButton(onPressed: (){
+
+                              },
+                                  highlightColor: Colors.transparent,
+                                  icon: Icon(Icons.edit , color: Colors.white,
+                                  )
+                              )),
+                        ],
+                      )
+              ,
               ),
 
           ),
@@ -93,13 +156,20 @@ class _HomeState extends State<Home> {
 
           automaticallyImplyLeading: false,
 
-          title: Text("Welcome ${currentUser?.displayName} " , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w300 ,fontSize:22 ),),
+          title: Text( !_isSet ? "Welcome ${currentUser?.displayName} " : "Settings" , style: TextStyle(color: Colors.white , fontWeight: FontWeight.w300 ,fontSize:22 ),),
           centerTitle: true,
           actions: [
-            IconButton(onPressed: (){
+            !_isSet ?
+            IconButton(
+                onPressed: (){
 
             },
-                icon: Icon(Icons.notifications , color: Colors.white,)),
+                icon: Icon(Icons.notifications , color: Colors.white,)) :
+            IconButton(
+                onPressed: (){
+                  signOut();
+                },
+                icon: Icon(Icons.power_settings_new , color: Colors.white,))  ,
            /* IconButton(onPressed: (){
               signOut();
             },
@@ -174,6 +244,7 @@ class _HomeState extends State<Home> {
 
 
                    child:  BottomNavigationBar(
+
                      currentIndex: _selectedIndex,
                      backgroundColor: Colors.white,
                      selectedItemColor:color,
@@ -208,14 +279,14 @@ class _HomeState extends State<Home> {
 
                    )
                )) ,
-           floatingActionButton: FloatingActionButton(
+           floatingActionButton: !_isSet ? FloatingActionButton(
           backgroundColor: color ,
           onPressed: () {
             Navigator.pushNamed(context, '/addTodo');
           },
           child:const  Icon(Icons.add),
 
-        ),
+        ) :const  SizedBox(),
 
     );
   }

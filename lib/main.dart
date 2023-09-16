@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/Home/home.dart';
+import 'package:todo_app/Home/updateTodo.dart';
 import 'Authentification/signUp.dart';
 import 'Authentification/widgetTree.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         '/Home' : (context) => const Home() ,
         '/register' : (context) => const SignUp(),
         '/addTodo' : (context) => const AddTodo(),
+
 
 
 
