@@ -1,4 +1,5 @@
-import 'dart:developer';
+
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,14 +33,24 @@ class _AddTodoState extends State<AddTodo> {
   Future<void> addTo()async{
     String title = _controllerTtile.text ;
     String subtitle = _controllerSubtitle.text ;
-    final docRef = _firestore.collection('Todo').doc();
+    int customDocumentId;
+    Random random = Random();
+    do {
+      customDocumentId = random.nextInt(9000) + 1000;
+    } while (await _firestore.collection('Todo').doc(customDocumentId.toString()).get().then((docSnapshot) => docSnapshot.exists));
 
+    final docRef = _firestore.collection('Todo').doc('/$customDocumentId');
+    String kk ='${dateinput.text} ${timeinput.text}' ;
+    DateTime dateTime = DateFormat('dd-MM-yyyy HH:mm').parse(kk);
+
+
+    print(customDocumentId);
     Todo appt =
-    Todo(id : docRef.id, email: currentUser?.email as String , date: '${dateinput.text}  ${timeinput.text}  ', title : title , subtitle: subtitle , done : false );
+    Todo(id : customDocumentId, email: currentUser?.email as String , date: dateTime   , title : title , subtitle: subtitle , done : false );
 
     await docRef.set(appt.toJson()).then(
-            (value) => log("bien ajouter "),
-        onError: (e) => log("Error booking appointment: $e"));
+            (value) => print("bien ajouter "),
+        onError: (e) => print("Error booking appointment: $e"));
   }
 
   void initState() {
@@ -139,8 +150,7 @@ class _AddTodoState extends State<AddTodo> {
                               );
 
                               if(pickedTime != null ){
-                                String selTime =
-                                    pickedTime.hour.toString() + ':' + pickedTime.minute.toString() ;
+
                                 print(pickedTime.format(context).toString());
                                String kk = pickedTime.format(context);
 

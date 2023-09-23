@@ -1,9 +1,11 @@
 import 'dart:developer';
+import 'package:todo_app/data/notifications.dart';
 import 'updateTodo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/data/todo.dart';
+
 class ListItem extends StatefulWidget {
   final Todo todo ;
 
@@ -24,6 +26,7 @@ class _ListItemState extends State<ListItem> {
     await db.collection('Todo').doc(id).update({"done" : done}).then(
             (value) => log("updated Successfully!"),
         onError: (e) => log("Error updating : $e"));
+    Notif().cancelNotif(widget.todo.id);
   }
   final String hexColor = "#4f459e";
   final String hexColor2 = "#399f49";
@@ -32,6 +35,7 @@ class _ListItemState extends State<ListItem> {
     db.collection('Todo').doc(todo).delete().then(
             (value) => log("Appointment deleted successfully!"),
         onError: (e) => "Error deleting appointment: $e");
+    Notif().cancelNotif(widget.todo.id);
   }
 
   @override
@@ -40,9 +44,9 @@ class _ListItemState extends State<ListItem> {
     final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
     final Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
 
-    String id = widget.todo.id ;
+    String id = widget.todo.id.toString() ;
     bool _isdone =  widget.todo.done;
-    String    date =               widget.todo.date ;
+    String    date =  '${widget.todo.date.day}-${widget.todo.date.month}-${widget.todo.date.year}  ${widget.todo.date.hour}:${widget.todo.date.minute}' ;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       child: Container(
@@ -68,8 +72,10 @@ class _ListItemState extends State<ListItem> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.todo.title ,
-                    style:TextStyle(color: color  , fontSize: 24 , fontWeight: FontWeight.w600) ,
+                  Expanded(
+                    child: Text(widget.todo.title , maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style:TextStyle(color: color  , fontSize: 24 , fontWeight: FontWeight.w600 , ) ,
+                    ),
                   ) ,
                   Text(date ,
                   style:TextStyle(
@@ -136,6 +142,7 @@ class _ListItemState extends State<ListItem> {
                            padding: EdgeInsets.all(0),
                             onPressed : (){
                               deleteAppointment(id);
+
                             } ,
                               icon: Icon(Icons.delete , color: Colors.white, size: 20,) ,
 

@@ -20,10 +20,11 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-apply plugin: 'com.google.gms.google-services'
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 
 android {
     compileSdkVersion 33
@@ -52,6 +53,8 @@ android {
         versionName flutterVersionName
         minSdkVersion 21
         targetSdkVersion 33
+        multiDexEnabled true
+
     }
 
     buildTypes {
@@ -61,6 +64,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.example.todo_app'
 }
 
 flutter {
@@ -74,3 +78,5 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
+apply plugin: 'com.google.gms.google-services'

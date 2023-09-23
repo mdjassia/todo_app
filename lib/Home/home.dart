@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_app/data/todo.dart';
-
+import 'package:todo_app/data/notifications.dart';
 import 'package:todo_app/Authentification/Auth.dart';
 import 'screenTodo.dart';
 import 'settings.dart';
@@ -21,7 +21,9 @@ class _HomeState extends State<Home> {
   final _firebaseAuth = FirebaseAuth.instance ;
 
   bool _isSet = false ;
-
+  Future<void> callNot(Todo todo) async{
+    await Notif().scheduleTaskNotification(todo);
+  }
   Future<void> signOut ()async{
     await Auth().signOut();
   }
@@ -29,6 +31,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
   @override
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -212,6 +215,10 @@ class _HomeState extends State<Home> {
                 List<Todo> isdone = [];
                 List<Todo> isnotdone = [];
 
+
+
+
+
 //_AnimatedMovies = AllMovies.where((i) => i.isAnimated).toList();
 
                 for (var doc in snapshot.data!.docs) {
@@ -219,6 +226,7 @@ class _HomeState extends State<Home> {
                   Todo.fromJson(doc.data() as Map<String, dynamic>);
 
                   appts.add(appt);
+
                   if (appt.done == true) {
                     isdone.add(appt);
                   }
@@ -232,6 +240,24 @@ class _HomeState extends State<Home> {
                   SettingsPage()
 
                 ];
+                for ( var apptk in appts){
+
+
+
+                  DateTime currentDate = DateTime.now();
+                  Duration tenMinutes = Duration(minutes: 10);
+                  DateTime newDateTime = apptk.date.subtract(tenMinutes);
+
+
+                  if(currentDate.isBefore(newDateTime) ){
+                    print(apptk.date);
+                    print(currentDate);
+                    callNot(apptk);
+                  }
+
+                }
+
+
 
 
                 return _widgetOptions.elementAt(_selectedIndex);
@@ -289,6 +315,7 @@ class _HomeState extends State<Home> {
                )) ,
            floatingActionButton: !_isSet ? FloatingActionButton(
           backgroundColor: color ,
+          foregroundColor: Colors.white,
           onPressed: () {
             Navigator.pushNamed(context, '/addTodo');
           },

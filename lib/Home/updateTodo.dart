@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:todo_app/data/todo.dart';
@@ -19,7 +19,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
 
    TextEditingController _controllerTtile = TextEditingController() ;
    TextEditingController _controllerSubtitle = TextEditingController() ;
-   TextEditingController _controllerDate = TextEditingController() ;
+
 
   TextEditingController timeinput = TextEditingController();
   TextEditingController dateinput = TextEditingController();
@@ -30,7 +30,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
 
   void updateTodo(todo) {
     //Set updated data for selected todo
-    db.collection('Todo').doc(todo.id).set(todo.toJson()).then(
+    db.collection('Todo').doc('/${todo.id}').set(todo.toJson()).then(
             (value) => log("Todo updated Successfully!"),
         onError: (e) => log("Error updating Todo: $e"));
   }
@@ -39,8 +39,8 @@ class _UpdateTodoState extends State<UpdateTodo> {
   void initState() {
     _controllerTtile.text = widget.todo.title;
     _controllerSubtitle.text = widget.todo.subtitle;
-    dateinput.text = widget.todo.date.substring(0 , 10) ;
-    timeinput.text = widget.todo.date.substring(11 , 16) ;
+    dateinput.text = '${widget.todo.date.day}-${widget.todo.date.month}-${widget.todo.date.year}';
+    timeinput.text = '${widget.todo.date.hour}:${widget.todo.date.minute}' ;
      item = Todo(title: widget.todo.title ,email: widget.todo.email, id : widget.todo.id,subtitle: widget.todo.subtitle, date: widget.todo.date , done:widget.todo.done  );
     // TODO: implement initState
     super.initState();
@@ -146,9 +146,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
                             );
 
                             if (pickedTime != null) {
-                              String selTime =
-                                  pickedTime.hour.toString() + ':' +
-                                      pickedTime.minute.toString();
+
                               String kk = pickedTime.format(context);
 
 
@@ -269,7 +267,9 @@ class _UpdateTodoState extends State<UpdateTodo> {
                         onPressed: () {
                           if (_controllerTtile.text.isNotEmpty) {
                             setState(() {
-                              item =Todo(id: widget.todo.id, email:widget.todo.email , title: _controllerTtile.text, subtitle: _controllerSubtitle.text, date: "${dateinput.text} ${timeinput.text}", done: false);
+                              String kk ='${dateinput.text} ${timeinput.text}' ;
+                              DateTime dateTime = DateFormat('dd-MM-yyyy HH:mm').parse(kk);
+                              item =Todo(id: widget.todo.id, email:widget.todo.email , title: _controllerTtile.text, subtitle: _controllerSubtitle.text, date: dateTime, done: false);
 
                             });
                             updateTodo(item);
