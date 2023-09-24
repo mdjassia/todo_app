@@ -15,10 +15,10 @@ class NotificationScreen extends StatelessWidget {
 
     return  SafeArea(
       child: Scaffold(
-        body: Container(
+        body:
 
 
-          child: Stack(
+         Stack(
             alignment: Alignment.topRight,
 
             children: [Container(
@@ -40,7 +40,7 @@ class NotificationScreen extends StatelessWidget {
               ),
               child: Column(
                 //mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text('Reminder' ,style: TextStyle(color: Theme.of(context).primaryColor , fontSize: 40 , fontWeight: FontWeight.w700),),
                   SizedBox(height: 50,),
@@ -66,7 +66,7 @@ class NotificationScreen extends StatelessWidget {
             ]
           ),
         ),
-      ),
+
     );
   }
 }
