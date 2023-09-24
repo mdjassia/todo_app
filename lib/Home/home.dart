@@ -235,14 +235,11 @@ class _HomeState extends State<Home> {
                   SettingsPage()
 
                 ];
-                for ( var apptk in appts){
-
-
+                for ( var apptk in isnotdone){
 
                   DateTime currentDate = DateTime.now();
                   Duration tenMinutes = Duration(minutes: 10);
                   DateTime newDateTime = apptk.date.subtract(tenMinutes);
-
 
                   if(currentDate.isBefore(newDateTime) ){
                     print(apptk.date);

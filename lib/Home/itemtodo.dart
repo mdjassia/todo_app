@@ -26,16 +26,17 @@ class _ListItemState extends State<ListItem> {
     await db.collection('Todo').doc(id).update({"done" : done}).then(
             (value) => log("updated Successfully!"),
         onError: (e) => log("Error updating : $e"));
-    Notif().cancelNotif(widget.todo.id);
+
   }
   final String hexColor = "#4f459e";
   final String hexColor2 = "#399f49";
   void deleteAppointment(todo) {
+
     //Delete selected appointment
-    db.collection('Todo').doc(todo).delete().then(
+     db.collection('Todo').doc(todo).delete().then(
             (value) => log("Appointment deleted successfully!"),
         onError: (e) => "Error deleting appointment: $e");
-    Notif().cancelNotif(widget.todo.id);
+
   }
 
   @override
@@ -143,6 +144,7 @@ class _ListItemState extends State<ListItem> {
                            padding: EdgeInsets.all(0),
                             onPressed : (){
                               deleteAppointment(id);
+                              Notif().cancelNotif(widget.todo.id);
 
                             } ,
                               icon: Icon(Icons.delete , color: Colors.white, size: 20,) ,
@@ -179,6 +181,7 @@ class _ListItemState extends State<ListItem> {
                           _isdone = !_isdone ;
                         });
                         checkFun( _isdone ,  id);
+                        Notif().cancelNotif(widget.todo.id);
                       },
                           child: Text('Complete' ,style: TextStyle(color: Colors.white),),
                         style: ButtonStyle(

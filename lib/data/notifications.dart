@@ -107,5 +107,6 @@ Future<tz.TZDateTime> convertToTZTime (DateTime datetime) async{
   }
   Future<void> cancelNotif (int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
+    print('////////////////////////////////////6666666666666666666666666666/////////////////// ${id}');
   }
 }
