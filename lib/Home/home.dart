@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/data/todo.dart';
 import 'package:todo_app/data/notifications.dart';
 import 'package:todo_app/Authentification/Auth.dart';
+import 'package:todo_app/theme/providerTheme.dart';
 import 'screenTodo.dart';
 import 'settings.dart';
 
@@ -30,9 +32,6 @@ class _HomeState extends State<Home> {
   final String hexColor = "#4f459e";
   int _selectedIndex = 0;
 
-  @override
-
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -49,26 +48,19 @@ class _HomeState extends State<Home> {
 
   }
   User? get currentUser =>  _firebaseAuth.currentUser;
-  @override
-  void initState() {
 
-    // TODO: implement initState
-
-    super.initState();
-
-  }
 
 
   Widget build(BuildContext context) {
     final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
-
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return
        Scaffold(
-        backgroundColor: Colors.grey.shade100,
+
         appBar: AppBar(
-          elevation: 0.1,
+         elevation: 1,
           shadowColor: Colors.grey.shade100,
-          backgroundColor:color,
+
           bottom: PreferredSize(
             preferredSize:  _isSet ? Size.fromHeight(80.0) : const Size.fromHeight(60.0) ,
             child: Container(
@@ -77,7 +69,7 @@ class _HomeState extends State<Home> {
               width: double.infinity,
                height: _isSet ? 80 :55,
 
-              color: color,
+
 
                   child: !_isSet ?
                   TextField(
@@ -129,7 +121,7 @@ class _HomeState extends State<Home> {
                                   style:TextStyle(
                                     color: Colors.white ,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 22
+                                    fontSize: 35
                                   ) ,
                                 ),
                               ),
@@ -171,11 +163,14 @@ class _HomeState extends State<Home> {
           centerTitle: true,
           actions: [
             !_isSet ?
-            IconButton(
-                onPressed: (){
-
-            },
-                icon: Icon(Icons.notifications , color: Colors.white,)) :
+        IconButton(
+        icon: Icon(
+          themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+        ),
+         onPressed: () {
+           themeProvider.toggleTheme();
+         },
+       ) :
             IconButton(
                 onPressed: (){
                   signOut();
@@ -280,8 +275,8 @@ class _HomeState extends State<Home> {
                    child:  BottomNavigationBar(
 
                      currentIndex: _selectedIndex,
-                     backgroundColor: Colors.white,
-                     selectedItemColor:color,
+                     //backgroundColor: Colors.white,
+                     //selectedItemColor:color,
                      //selectedIconTheme: const IconThemeData(color: Colors.  , ),
                      selectedLabelStyle:TextStyle(fontWeight: FontWeight.w200 , fontSize:  16, height: 1.5) ,
 
@@ -290,21 +285,21 @@ class _HomeState extends State<Home> {
                      type: BottomNavigationBarType.fixed,
 
 
-                     items:   <BottomNavigationBarItem>[
+                     items:   const <BottomNavigationBarItem>[
                        BottomNavigationBarItem(
                          label: 'Task',
-                         icon: Icon(Icons.paste , color: Colors.grey,),
-                         activeIcon: Icon(Icons.paste , color: color,),
+                         icon: Icon(Icons.paste , ),
+                         activeIcon: Icon(Icons.paste ),
                        ),
                        BottomNavigationBarItem(
                            label: 'Completed Task',
                            icon: Icon(Icons.inventory_outlined),
-                         activeIcon: Icon(Icons.inventory_outlined , color: color,),
+                         activeIcon: Icon(Icons.inventory_outlined ),
                        ),
                        BottomNavigationBarItem(
                            label: 'Setting',
                            icon: Icon(Icons.settings),
-                           activeIcon : Icon(Icons.settings , color: color,),
+                           activeIcon : Icon(Icons.settings ,),
                        ),
 
 

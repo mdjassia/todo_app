@@ -36,20 +36,20 @@ class NotificationScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Color(0xffcac7e2) ,style: BorderStyle.solid , width: 3 ,strokeAlign: BorderSide.strokeAlignOutside),
                 color:
-                  Colors.white
+                Theme.of(context).colorScheme.secondary
               ),
               child: Column(
                 //mainAxisAlignment:MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Reminder' ,style: TextStyle(color:Color(0xff4f459e) , fontSize: 40 , fontWeight: FontWeight.w700),),
+                  Text('Reminder' ,style: TextStyle(color: Theme.of(context).primaryColor , fontSize: 40 , fontWeight: FontWeight.w700),),
                   SizedBox(height: 50,),
 
                    
 
 
 
-                  Text("${title}" , style: TextStyle( color :Colors.grey.shade800 ,fontSize: 25 , fontWeight: FontWeight.w600),),
+                  Text("${title}" , style: TextStyle( color :Theme.of(context).colorScheme.onPrimaryContainer ,fontSize: 25 , fontWeight: FontWeight.w600),),
                   SizedBox(height: 15,),
                   Text( "Today at ${date} "  , style : TextStyle( color :Colors.grey,fontSize: 18 , fontWeight: FontWeight.w500),),
 

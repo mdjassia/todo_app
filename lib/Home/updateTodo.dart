@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:todo_app/data/todo.dart';
 import 'package:intl/intl.dart';
+
+import '../theme/providerTheme.dart';
 
 class UpdateTodo extends StatefulWidget {
   final Todo todo ;
@@ -48,8 +51,8 @@ class _UpdateTodoState extends State<UpdateTodo> {
 
     @override
     Widget build(BuildContext context) {
-      final Color color = Color(
-          int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
+      final themeProvider = Provider.of<ThemeProvider>(context);
+
       final Color color2 = Color(
           int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
       final Color color3 = Color(
@@ -58,9 +61,9 @@ class _UpdateTodoState extends State<UpdateTodo> {
         child: Scaffold(
 
           appBar: AppBar(
-            backgroundColor: color,
+            //backgroundColor: color,
             title: const Text("Let's Update ur Task ",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w300),),
+              style: TextStyle(color : Colors.white ,fontSize: 22, fontWeight: FontWeight.w300),),
           ),
           body: SingleChildScrollView(
 
@@ -259,7 +262,7 @@ class _UpdateTodoState extends State<UpdateTodo> {
 
                   alignment: Alignment.bottomCenter,
                   margin: const EdgeInsets.only(top: 20),
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
@@ -285,10 +288,11 @@ class _UpdateTodoState extends State<UpdateTodo> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
                             ),
-                            backgroundColor: MaterialStateProperty.all(color2)
+                            backgroundColor: MaterialStateProperty.all(themeProvider.isDarkMode ? Color(0xFF473E85) : color2)
                         ),
                         child: const  Text("Edit Task",
-                          style:  TextStyle(fontWeight: FontWeight.bold,
+                          style:  TextStyle(color: Colors.white,
+                              fontWeight: FontWeight.bold,
                               fontSize: 20),)),
                   ),
                 )

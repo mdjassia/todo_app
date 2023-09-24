@@ -52,11 +52,11 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return  SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        //backgroundColor: Colors.grey.shade100,
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset("assets/images/7.png", height: 350,),
+              Image.asset("assets/images/000.png", height: 350,),
               !hasAccount ? Container(
                 margin:const EdgeInsets.symmetric(vertical:10  , horizontal:20 ) ,
                 child: TextField(
@@ -78,8 +78,9 @@ class _SignUpState extends State<SignUp> {
                 child: TextField(
                   controller: _controllerEmail,
                   decoration: InputDecoration(
+                    hintStyle:const TextStyle(color: Colors.grey) ,
                     filled: true, //<-- SEE HERE
-                    fillColor: Colors.white,
+                    fillColor: Theme.of(context).colorScheme.secondary,
                     prefixIcon: const Icon( Icons.email_outlined , color: Colors.grey,),
                     hintText: "Email ",
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(20) ),
@@ -96,7 +97,7 @@ class _SignUpState extends State<SignUp> {
                   obscureText: show,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
-                   fillColor: Colors.white,
+                   fillColor: Theme.of(context).colorScheme.secondary,
                     hintStyle:const TextStyle(color: Colors.grey) ,
                     prefixIcon: IconButton(
                         icon: show== true  ? const Icon( Icons.vpn_key_outlined , color: Colors.grey,) : const Icon( Icons.vpn_key_off_outlined , color: Colors.grey,) ,
@@ -149,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                       createUserWithEmailPassword();
                     }
                   },
-                  child: Text(hasAccount ? "Login" : "Sign Up" , style: const TextStyle(fontWeight: FontWeight.bold , fontSize: 22),),
+                  child: Text(hasAccount ? "Login" : "Sign Up" , style: const TextStyle( color: Colors.white ,fontWeight: FontWeight.bold , fontSize: 22),),
                 ),
               )
 

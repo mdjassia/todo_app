@@ -41,7 +41,7 @@ class _ListItemState extends State<ListItem> {
   @override
 
   Widget build(BuildContext context) {
-    final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
+
     final Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
 
     String id = widget.todo.id.toString() ;
@@ -54,10 +54,11 @@ class _ListItemState extends State<ListItem> {
 
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          //color: Colors.white,
+          color: Theme.of(context).colorScheme.secondary,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.shadow,
               spreadRadius: 5,
               blurRadius: 7,
               offset: Offset(0, 2),
@@ -74,12 +75,12 @@ class _ListItemState extends State<ListItem> {
                 children: [
                   Expanded(
                     child: Text(widget.todo.title , maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style:TextStyle(color: color  , fontSize: 24 , fontWeight: FontWeight.w600 , ) ,
+                      style:TextStyle(color: Theme.of(context).primaryColor  , fontSize: 24 , fontWeight: FontWeight.w600 , ) ,
                     ),
                   ) ,
                   Text(date ,
                   style:TextStyle(
-                    color: Colors.black26,
+                    color: Theme.of(context).colorScheme.onPrimary,
 
                   ) ,
                   )
@@ -89,7 +90,7 @@ class _ListItemState extends State<ListItem> {
               SizedBox(height: 10,),
               Text(widget.todo.subtitle ,
               style: TextStyle(
-                color: Colors.black38 ,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   //fontWeight: FontWeight.w300
                 fontSize: 16
               ),),
@@ -179,7 +180,7 @@ class _ListItemState extends State<ListItem> {
                         });
                         checkFun( _isdone ,  id);
                       },
-                          child: Text('Complete'),
+                          child: Text('Complete' ,style: TextStyle(color: Colors.white),),
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),

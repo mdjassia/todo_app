@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../theme/providerTheme.dart';
 import 'Auth.dart';
 class EditUser extends StatefulWidget {
   const EditUser({super.key});
@@ -28,12 +30,13 @@ class _EditUserState extends State<EditUser> {
   }
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final Color color = Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);
     final Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
-    final Color color3 = Color(int.parse(couleur.substring(1, 7), radix: 16) + 0xFF000000);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:color ,
+        //backgroundColor:color ,
         title:  Text("Edite Profile " , style: TextStyle(fontSize: 22 , fontWeight: FontWeight.w300),),
       ),
       body: Container(
@@ -75,9 +78,9 @@ class _EditUserState extends State<EditUser> {
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         ),
-                        backgroundColor: MaterialStateProperty.all(color2)
+                        backgroundColor: MaterialStateProperty.all(themeProvider.isDarkMode ? color : color2)
                     ),
-                    child: Text("Commit" , style: const TextStyle(fontWeight: FontWeight.bold , fontSize: 20),)),
+                    child: Text("Commit" , style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold , fontSize: 20),)),
               ),
             )
 
